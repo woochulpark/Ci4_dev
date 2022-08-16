@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+
+Options +FollowSymlinks
+RewriteEngine On
+# Protect application and system files from being viewed
+#RewriteRule ^(app|modules|system) - [F,L]
+RewriteRule ^(modules|system) - [F,L]
+ 
+# Allow requests for valid file or folder names, or some that should be
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d [OR]
+RewriteCond $1 ^(index\.php|images|robots\.txt|favicon\.ico|style\.css)
+RewriteRule ^(.*)$ - [L]
+ 
+# use index.php as front controller ...
+RewriteRule ^(.*)$ ./index.php/$1 [L]
+ 
+</IfModule>
